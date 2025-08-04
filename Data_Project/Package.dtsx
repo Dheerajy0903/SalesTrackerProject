@@ -11,8 +11,8 @@
   DTS:LocaleID="4105"
   DTS:ObjectName="Package"
   DTS:PackageType="5"
-  DTS:VersionBuild="6"
-  DTS:VersionGUID="{650DED84-D503-42BD-90C0-EDBD951CC595}">
+  DTS:VersionBuild="9"
+  DTS:VersionGUID="{356E0CB6-345E-4C4C-A8F3-DE0810EA5118}">
   <DTS:Property
     DTS:Name="PackageFormatVersion">8</DTS:Property>
   <DTS:ConnectionManagers>
@@ -621,6 +621,30 @@ where [refTable].[FullDate] = ?</property>
                           name="FriendlyExpression">SaleAmount * 1.05</property>
                       </properties>
                     </outputColumn>
+                    <outputColumn
+                      refId="Package\SalesTrackerSSIS\Derived Column.Outputs[Derived Column Output].Columns[SalesAmtDisc]"
+                      dataType="numeric"
+                      errorOrTruncationOperation="Computation"
+                      errorRowDisposition="FailComponent"
+                      lineageId="Package\SalesTrackerSSIS\Derived Column.Outputs[Derived Column Output].Columns[SalesAmtDisc]"
+                      name="SalesAmtDisc"
+                      precision="13"
+                      scale="2"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Derived Column Expression"
+                          name="Expression">#{Package\SalesTrackerSSIS\OLE DB Source.Outputs[OLE DB Source Output].Columns[SaleAmount]} - 50</property>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Derived Column Friendly Expression"
+                          expressionType="Notify"
+                          name="FriendlyExpression">SaleAmount - 50</property>
+                      </properties>
+                    </outputColumn>
                   </outputColumns>
                   <externalMetadataColumns />
                 </output>
@@ -978,16 +1002,131 @@ where [refTable].[FullDate] = ?</property>
       <GraphLayout
         Capacity="4" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph">
         <NodeLayout
-          Size="163.2,41.6"
-          Id="Package\SalesTrackerSSIS"
-          TopLeft="172.999990848204,59.2333329596784" />
-        <NodeLayout
           Size="193.6,41.6"
           Id="Package\Load to Data Warehouse"
           TopLeft="422.999978827934,58.8999998372793" />
+        <NodeLayout
+          Size="163.2,41.6"
+          Id="Package\SalesTrackerSSIS"
+          TopLeft="172.999990848204,59.2333329596784" />
       </GraphLayout>
     </LayoutInfo>
   </Package>
+  <TaskHost
+    design-time-name="Package\Load to Data Warehouse">
+    <LayoutInfo>
+      <GraphLayout
+        Capacity="8" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:mssgm="clr-namespace:Microsoft.SqlServer.Graph.Model;assembly=Microsoft.SqlServer.Graph">
+        <NodeLayout
+          Size="171.2,41.6"
+          Id="Package\Load to Data Warehouse\OLE DB Destination"
+          TopLeft="241.499997377396,222.499997660518" />
+        <NodeLayout
+          Size="112.8,41.6"
+          Id="Package\Load to Data Warehouse\Lookup"
+          TopLeft="268.49999652803,127.499998629093" />
+        <NodeLayout
+          Size="152,41.6"
+          Id="Package\Load to Data Warehouse\OLE DB Source"
+          TopLeft="244.499996438623,38.4999995082617" />
+        <EdgeLayout
+          Id="Package\Load to Data Warehouse.Paths[OLE DB Source Output]"
+          TopLeft="322.699996483326,80.0999995082617">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,47.3999991208315"
+              Start="0,0"
+              End="0,39.8999991208315">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,39.8999991208315" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\Load to Data Warehouse.Paths[Lookup Match Output]"
+          TopLeft="325.999996952713,169.099998629093">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,53.3999990314246"
+              Start="0,0"
+              End="0,45.8999990314246">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,45.8999990314246" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <mssgm:EdgeLabel
+              BoundingBox="-48.19138671875,17.1453120157123,96.3827734375,11.609375"
+              RelativePosition="Any" />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+      </GraphLayout>
+    </LayoutInfo>
+  </TaskHost>
+  <PipelineComponentMetadata
+    design-time-name="Package\Load to Data Warehouse\OLE DB Destination">
+    <Properties>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+      <Property>
+        <Name>TableInfoObjectType</Name>
+        <Value
+          type="q2:string">Table</Value>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+  <PipelineComponentMetadata
+    design-time-name="Package\Load to Data Warehouse\Lookup">
+    <Properties>
+      <Property>
+        <Name>OverwriteParamsSQLProp</Name>
+        <Value
+          type="q2:string">false</Value>
+      </Property>
+      <Property>
+        <Name>UsedTableName</Name>
+        <Value
+          type="q3:string">[dbo].[DimDate]</Value>
+      </Property>
+      <Property>
+        <Name>TableInfoObjectType</Name>
+        <Value
+          type="q4:string">0</Value>
+      </Property>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+  <PipelineComponentMetadata
+    design-time-name="Package\Load to Data Warehouse\OLE DB Source">
+    <Properties>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+      <Property>
+        <Name>TableInfoObjectType</Name>
+        <Value
+          type="q2:string">Table</Value>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
   <TaskHost
     design-time-name="Package\SalesTrackerSSIS">
     <LayoutInfo>
@@ -1001,6 +1140,10 @@ where [refTable].[FullDate] = ?</property>
           Size="152.8,41.6"
           Id="Package\SalesTrackerSSIS\Derived Column"
           TopLeft="167.999994399647,121.833332941598" />
+        <NodeLayout
+          Size="171.2,41.6"
+          Id="Package\SalesTrackerSSIS\OLE DB Destination"
+          TopLeft="160.499996448557,213.366665847037" />
         <EdgeLayout
           Id="Package\SalesTrackerSSIS.Paths[OLE DB Source Output]"
           TopLeft="243.783326936182,74.5000000180801">
@@ -1023,10 +1166,6 @@ where [refTable].[FullDate] = ?</property>
             <EdgeLabelCollection />
           </EdgeLayout.Labels>
         </EdgeLayout>
-        <NodeLayout
-          Size="171.2,41.6"
-          Id="Package\SalesTrackerSSIS\OLE DB Destination"
-          TopLeft="160.499996448557,213.366665847037" />
         <EdgeLayout
           Id="Package\SalesTrackerSSIS.Paths[Derived Column Output]"
           TopLeft="245.249995424102,163.433332941598">
@@ -1067,121 +1206,6 @@ where [refTable].[FullDate] = ?</property>
   </PipelineComponentMetadata>
   <PipelineComponentMetadata
     design-time-name="Package\SalesTrackerSSIS\OLE DB Destination">
-    <Properties>
-      <Property>
-        <Name>DataSourceViewID</Name>
-      </Property>
-      <Property>
-        <Name>TableInfoObjectType</Name>
-        <Value
-          type="q2:string">Table</Value>
-      </Property>
-    </Properties>
-  </PipelineComponentMetadata>
-  <TaskHost
-    design-time-name="Package\Load to Data Warehouse">
-    <LayoutInfo>
-      <GraphLayout
-        Capacity="8" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:mssgm="clr-namespace:Microsoft.SqlServer.Graph.Model;assembly=Microsoft.SqlServer.Graph">
-        <NodeLayout
-          Size="152,41.6"
-          Id="Package\Load to Data Warehouse\OLE DB Source"
-          TopLeft="244.499996438623,38.4999995082617" />
-        <NodeLayout
-          Size="112.8,41.6"
-          Id="Package\Load to Data Warehouse\Lookup"
-          TopLeft="268.49999652803,127.499998629093" />
-        <EdgeLayout
-          Id="Package\Load to Data Warehouse.Paths[OLE DB Source Output]"
-          TopLeft="322.699996483326,80.0999995082617">
-          <EdgeLayout.Curve>
-            <mssgle:Curve
-              StartConnector="{assembly:Null}"
-              EndConnector="0,47.3999991208315"
-              Start="0,0"
-              End="0,39.8999991208315">
-              <mssgle:Curve.Segments>
-                <mssgle:SegmentCollection
-                  Capacity="5">
-                  <mssgle:LineSegment
-                    End="0,39.8999991208315" />
-                </mssgle:SegmentCollection>
-              </mssgle:Curve.Segments>
-            </mssgle:Curve>
-          </EdgeLayout.Curve>
-          <EdgeLayout.Labels>
-            <EdgeLabelCollection />
-          </EdgeLayout.Labels>
-        </EdgeLayout>
-        <NodeLayout
-          Size="171.2,41.6"
-          Id="Package\Load to Data Warehouse\OLE DB Destination"
-          TopLeft="241.499997377396,222.499997660518" />
-        <EdgeLayout
-          Id="Package\Load to Data Warehouse.Paths[Lookup Match Output]"
-          TopLeft="325.999996952713,169.099998629093">
-          <EdgeLayout.Curve>
-            <mssgle:Curve
-              StartConnector="{assembly:Null}"
-              EndConnector="0,53.3999990314246"
-              Start="0,0"
-              End="0,45.8999990314246">
-              <mssgle:Curve.Segments>
-                <mssgle:SegmentCollection
-                  Capacity="5">
-                  <mssgle:LineSegment
-                    End="0,45.8999990314246" />
-                </mssgle:SegmentCollection>
-              </mssgle:Curve.Segments>
-            </mssgle:Curve>
-          </EdgeLayout.Curve>
-          <EdgeLayout.Labels>
-            <mssgm:EdgeLabel
-              BoundingBox="-48.19138671875,17.1453120157123,96.3827734375,11.609375"
-              RelativePosition="Any" />
-          </EdgeLayout.Labels>
-        </EdgeLayout>
-      </GraphLayout>
-    </LayoutInfo>
-  </TaskHost>
-  <PipelineComponentMetadata
-    design-time-name="Package\Load to Data Warehouse\OLE DB Source">
-    <Properties>
-      <Property>
-        <Name>DataSourceViewID</Name>
-      </Property>
-      <Property>
-        <Name>TableInfoObjectType</Name>
-        <Value
-          type="q2:string">Table</Value>
-      </Property>
-    </Properties>
-  </PipelineComponentMetadata>
-  <PipelineComponentMetadata
-    design-time-name="Package\Load to Data Warehouse\Lookup">
-    <Properties>
-      <Property>
-        <Name>OverwriteParamsSQLProp</Name>
-        <Value
-          type="q2:boolean">false</Value>
-      </Property>
-      <Property>
-        <Name>UsedTableName</Name>
-        <Value
-          type="q3:string">[dbo].[DimDate]</Value>
-      </Property>
-      <Property>
-        <Name>TableInfoObjectType</Name>
-        <Value
-          type="q4:int">0</Value>
-      </Property>
-      <Property>
-        <Name>DataSourceViewID</Name>
-      </Property>
-    </Properties>
-  </PipelineComponentMetadata>
-  <PipelineComponentMetadata
-    design-time-name="Package\Load to Data Warehouse\OLE DB Destination">
     <Properties>
       <Property>
         <Name>DataSourceViewID</Name>
