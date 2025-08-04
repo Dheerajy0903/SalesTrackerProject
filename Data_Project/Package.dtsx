@@ -11,8 +11,8 @@
   DTS:LocaleID="4105"
   DTS:ObjectName="Package"
   DTS:PackageType="5"
-  DTS:VersionBuild="9"
-  DTS:VersionGUID="{356E0CB6-345E-4C4C-A8F3-DE0810EA5118}">
+  DTS:VersionBuild="10"
+  DTS:VersionGUID="{6A8F7C1C-106D-402C-8CB3-65A759F89C88}">
   <DTS:Property
     DTS:Name="PackageFormatVersion">8</DTS:Property>
   <DTS:ConnectionManagers>
@@ -643,6 +643,30 @@ where [refTable].[FullDate] = ?</property>
                           description="Derived Column Friendly Expression"
                           expressionType="Notify"
                           name="FriendlyExpression">SaleAmount - 50</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\SalesTrackerSSIS\Derived Column.Outputs[Derived Column Output].Columns[SalesAmttwice]"
+                      dataType="numeric"
+                      errorOrTruncationOperation="Computation"
+                      errorRowDisposition="FailComponent"
+                      lineageId="Package\SalesTrackerSSIS\Derived Column.Outputs[Derived Column Output].Columns[SalesAmttwice]"
+                      name="SalesAmttwice"
+                      precision="21"
+                      scale="2"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Derived Column Expression"
+                          name="Expression">#{Package\SalesTrackerSSIS\OLE DB Source.Outputs[OLE DB Source Output].Columns[SaleAmount]} * 2</property>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Derived Column Friendly Expression"
+                          expressionType="Notify"
+                          name="FriendlyExpression">SaleAmount * 2</property>
                       </properties>
                     </outputColumn>
                   </outputColumns>
